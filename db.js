@@ -10,5 +10,5 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
 });
-
+console.log('conectado exitosamente a la base de datos');
 export default pool;
