@@ -1,6 +1,10 @@
 import pool from '../db/db.js';
 
 export const runMigrations = async () => {
+
+  /* ======================================================
+     TABLA USERS
+  ====================================================== */
   await pool.execute(`
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,6 +19,9 @@ export const runMigrations = async () => {
     )
   `);
 
+  /* ======================================================
+     TABLA PRODUCTS
+  ====================================================== */
   await pool.execute(`
     CREATE TABLE IF NOT EXISTS products (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,26 +34,33 @@ export const runMigrations = async () => {
     )
   `);
 
+ 
+  /* ======================================================
+     TABLA ORDERS (PEDIDOS)
+  ====================================================== */
   await pool.execute(`
-    CREATE TABLE IF NOT EXISTS shopping_cart (
+    CREATE TABLE IF NOT EXISTS orders (
       id INT AUTO_INCREMENT PRIMARY KEY,
       user_id INT,
-      total DECIMAL(10,2) DEFAULT 0,
+      total DECIMAL(10,2),
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
 
+  /* ======================================================
+     TABLA ORDER_ITEMS (DETALLE DE PEDIDO)
+  ====================================================== */
   await pool.execute(`
-    CREATE TABLE IF NOT EXISTS products_shopping_cart (
+    CREATE TABLE IF NOT EXISTS order_items (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      shopping_cart_id INT,
+      order_id INT,
       product_id INT,
-      quantity INT DEFAULT 1,
+      quantity INT,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      FOREIGN KEY (shopping_cart_id) REFERENCES shopping_cart(id),
+      FOREIGN KEY (order_id) REFERENCES orders(id),
       FOREIGN KEY (product_id) REFERENCES products(id)
     )
   `);

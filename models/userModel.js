@@ -7,7 +7,6 @@ export class UserModel extends BaseModel {
   }
 
   async createUser(fullname, email, phone_number, address, password, role = 'user') {
-    // users can be 'client' or 'admin'
     const [result] = await pool.query(
       'INSERT INTO users (fullname, email, phone_number, address, password, role) VALUES (?, ?, ?, ?, ?, ?)',
       [fullname, email, phone_number, address, password, role]
@@ -20,7 +19,6 @@ export class UserModel extends BaseModel {
     return rows[0];
   }
 
-  //update user name by id
     async updateUserName(id, fullname) {
     await pool.query('UPDATE users SET fullname = ? WHERE id = ?', [fullname, id]);
     const [rows] = await pool.query('SELECT id, fullname, email FROM users WHERE id = ?', [id]);

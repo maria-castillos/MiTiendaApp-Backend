@@ -21,15 +21,26 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const userFromDb = await userModel.findByEmail(email);
-  console.log(userFromDb);
   if (!userFromDb) return res.status(404).json({ error: 'Usuario no encontrado' });
 
   const valid = await bcrypt.compare(password, userFromDb.password);
   if (!valid) return res.status(401).json({ error: 'Contraseña incorrecta' });
 
   const token = generateToken(userFromDb);
-  res.json({ message: 'Login exitoso', token });
+
+
+  res.json({
+    message: 'Login exitoso',
+    token,
+    user: {
+      id: userFromDb.id,
+      fullname: userFromDb.fullname,
+      email: userFromDb.email,
+      role: userFromDb.role || 'user'
+    }
+  });
 });
+
 
 
 router.get('/users', authMiddleware, adminOnly, async (req, res) => {

@@ -8,7 +8,7 @@ if (!SECRET_KEY) throw new Error('JWT_SECRET no está definido en las variables 
 
 export const generateToken = (user) => {
   const payload = { id: user.id, email: user.email, role: user.role };
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
 };
 
 export const verifyToken = (token) => {

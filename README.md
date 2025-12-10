@@ -116,12 +116,17 @@ MiTiendaApp-Backend/
 ├─ db/
 │  └─ db.js                        # Pool de conexión MySQL
 ├─ models/
-│  ├─ baseModel.js
-│  ├─ userModel.js
-│  └─ productModel.js              # Modelo para productos (CRUD)
+│  ├─ baseModel.js                 # Clase base para modelos (CRUD genérico)
+│  ├─ userModel.js                 # Consultas y operaciones sobre la tabla users
+│  ├─ productModel.js              # Consultas y operaciones sobre la tabla products
+│  └─ orderModel.js                # Consultas y operaciones sobre la tabla orders
 ├─ routes/
-│  ├─ userRoutes.js
-│  └─ productRoutes.js             # Rutas CRUD de productos (requieren auth + admin)
+│  ├─ userRoutes.js                # Rutas públicas/privadas para usuarios (register/login/users)
+│  ├─ productRoutes.js             # Rutas CRUD para productos (requieren auth + admin)
+│  └─ orderRoutes.js               # Rutas para gestión de pedidos/carrito
+├─ controllers/                    # Controladores (separación de lógica)
+│  ├─ productController.js         # Lógica de negocio para productos (usado por productRoutes)
+│  └─ orderController.js           # Lógica de negocio para pedidos (usado por orderRoutes)
 ├─ services/
 │  ├─ authService.js               # Generación/validación de JWT
 │  └─ dbMigration.js               # Creación de tablas
